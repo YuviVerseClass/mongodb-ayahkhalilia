@@ -27,7 +27,15 @@ async function addTask(req, res) {
 }
 
 async function toggleTask(req, res) {
-  // TODO
+  try{
+    const tId=req.params.id;
+    const requireTask=await Task.findById(tId);
+    requireTask.done=!requireTask.done;
+    const editedTask=await requireTask.save();
+    res.status(200).json(editedTask);
+  }catch(error){
+    res.status(500).json({error:'failed to toggle task'});
+  }
 }
 
 async function deleteTask(req, res) {
