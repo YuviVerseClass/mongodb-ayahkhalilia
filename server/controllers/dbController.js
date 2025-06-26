@@ -30,6 +30,9 @@ async function toggleTask(req, res) {
   try{
     const tId=req.params.id;
     const requireTask=await Task.findById(tId);
+    if(!requireTask){
+      return res.status(404).json({error:'task id not found'});
+    }
     requireTask.done=!requireTask.done;
     const editedTask=await requireTask.save();
     res.status(200).json(editedTask);
