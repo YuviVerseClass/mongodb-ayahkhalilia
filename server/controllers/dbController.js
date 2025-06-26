@@ -31,7 +31,15 @@ async function toggleTask(req, res) {
 }
 
 async function deleteTask(req, res) {
-  // TODO
+  try{
+    const tId=req.params.id;
+    const tasktodelete=await Task.findByIdAndDelete(tId);
+    if(tasktodelete){
+      res.status(200).json({message:'task deleted successfully',task:tasktodelete});
+    }else return res.status(404).json({error:'task not found'});
+  }catch(error){
+    res.status(500).json({error:'failed to delete task from db'});
+  }
 }
 
 module.exports = {
